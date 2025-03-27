@@ -4,6 +4,7 @@ describe('category creation', () => {
     cy.get('#category_label').type('Romance')
     cy.get('.btn').click()
     cy.visit('https://127.0.0.1:8000/category')
+    cy.wait(3000)
     cy.get('table').contains('td', 'Romance')
   })
 
