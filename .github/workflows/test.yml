@@ -42,7 +42,7 @@ jobs:
       run: php bin/console doctrine:migrations:migrate
 
     - name: start PHP server
-      run: php -S 127.0.0.1:8000
+      run: php -S 127.0.0.1:8000 -t public &
 
     - name: Run Cypress tests
       uses: cypress-io/github-action@v5
