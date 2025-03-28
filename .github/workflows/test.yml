@@ -9,9 +9,40 @@ jobs:
   cypress-run:
     runs-on: ubuntu-latest
 
+    services:
+        mysql:
+            image: mysql:8
+            env:
+                MYSQL_ROOT_PASSWORD: 
+                MYSQL_DATABASE: CypressSymfony
+            ports:
+                - 3306:3306
+
     steps:
     - name: Checkout the code
       uses: actions/checkout@v3
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2.12'
+        tools: none
+        extensions: mbstring, pdo, pdo_mysql
+
+    - name: Install Composer dependencies
+      run: composer install --no-progress --prefer-dist
+
+    - name: Set up environment variables
+      run: cp .env.test .env.local
+
+    - name: Create database
+      run: symfony console d:d:c
+
+    - name: Run migrations
+      run: symfony console d:m:m
+
+    - name: start PHP server
+      run: php -S 127.0.0.1:8000
 
     - name: Run Cypress tests
       uses: cypress-io/github-action@v5
