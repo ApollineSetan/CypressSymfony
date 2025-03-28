@@ -36,10 +36,10 @@ jobs:
       run: cp .env.test .env.local
 
     - name: Create database
-      run: symfony console doctrine:database:create --if-not-exists
+      run: php bin/console doctrine:database:create --if-not-exists
 
     - name: Run migrations
-      run: symfony console doctrine:migrations:migrate
+      run: php bin/console console doctrine:migrations:migrate
 
     - name: start PHP server
       run: php -S 127.0.0.1:8000
